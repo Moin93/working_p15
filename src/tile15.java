@@ -186,6 +186,10 @@ public class tile15 extends JFrame implements ActionListener {
             }
 
         }
+        if (buttonList==button_winnerlist){
+            JOptionPane.showMessageDialog(null,
+                    "congrats you've won this round!");
+        }
         if (e.getSource()==wingame_b){
             for (JButton b:button_winnerlist) {
                 gamePanel.add(b);
