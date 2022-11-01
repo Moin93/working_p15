@@ -16,10 +16,9 @@ public class tile15 extends JFrame implements ActionListener {
 
     ArrayList<JButton> button_winnerlist = new ArrayList<>();
 
-
-    public JButton placeholder(JButton emptybutton) {
+    /*public JButton placeholder(JButton emptybutton) {
         return emptybutton;
-    }
+    }*/
     public tile15(){
         setLayout(new BorderLayout());
         add(gamePanel,BorderLayout.CENTER);
@@ -81,7 +80,7 @@ public class tile15 extends JFrame implements ActionListener {
         }
 
         if(e.getSource()!=newGameButton&&e.getSource()!=buttonList.get(emptytileIndex())){
-            int choiceindex=0;
+            //int choiceindex=0;
             if(emptytileIndex()==5||emptytileIndex()==6||emptytileIndex()==9||emptytileIndex()==10){
                 if(e.getSource()==buttonList.get(emptytileIndex()-1)
                         ||e.getSource()==buttonList.get(emptytileIndex()+1)
