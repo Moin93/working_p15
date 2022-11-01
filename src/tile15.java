@@ -6,96 +6,184 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 public class tile15 extends JFrame implements ActionListener {
-    JPanel gamePanel = new JPanel();
-    JPanel resetPanel = new JPanel();
-    JButton nyttspel = new JButton("Start New Game");
-    //JButton emptybutton=new JButton("");
-    ArrayList<JButton> buttons_list = new ArrayList<>();
-    JButton[] buttons = new JButton[16];
 
-    public static JButton placeholder(JButton emptybutton) {
+    JPanel gamePanel = new JPanel();
+    JPanel newGamePanel = new JPanel();
+    JButton newGameButton = new JButton("Start new game");
+
+    JButton wingame_b = new JButton("win the game!");
+    ArrayList<JButton> buttonList = new ArrayList<>();
+
+    ArrayList<JButton> button_winnerlist = new ArrayList<>();
+
+
+    public JButton placeholder(JButton emptybutton) {
         return emptybutton;
     }
-
-    public tile15() {
+    public tile15(){
         setLayout(new BorderLayout());
-        add(gamePanel, "Center");
-        add(resetPanel, "North");
-        resetPanel.add(nyttspel);
-        //gamePanel.add(emptybutton);
-        gamePanel.setLayout(new GridLayout(4, 4));
-        String nr = "";
-        for (int i = 0; i < buttons.length; i++) {
-            buttons[i] = new JButton();
-            if (i != buttons.length - 1) {
-                buttons[i].setText(Integer.toString(i + 1));
-            }
-            //buttons[i].addActionListener(this);
+        add(gamePanel,BorderLayout.CENTER);
+        add(newGamePanel,BorderLayout.NORTH);
+        newGamePanel.add(newGameButton);
+        newGamePanel.add(wingame_b);
+        gamePanel.setLayout(new GridLayout(4,4));
+        for(int i = 0;i<15;i++){
+            buttonList.add(new JButton(String.valueOf(i+1)));
+        }
+        buttonList.add(new JButton());
+        Collections.shuffle(buttonList);
 
-            gamePanel.add(buttons[i]);
+        newGameButton.addActionListener(this);
+
+        for(JButton button:buttonList){
+            button.addActionListener(this);
+            gamePanel.add(button);
         }
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
-        setSize(500, 500);
-        nyttspel.addActionListener(this);
-        buttons[15].setText("");
-        for (JButton buttons : buttons) {
-            buttons.addActionListener(this);
-        }
-        Collections.addAll(buttons_list, buttons);
+        setSize(500,500);
+
+
 
 
     }
-    /* public int emptytile_index () {
-         int indxnr = 0;
-         for (int i = 0; i < buttons_list.size(); i++) {
-             buttons_list.get(i).getText();
-             if (buttons_list.get(i).getText().trim().equalsIgnoreCase("")) {
-                 indxnr = i;
-             }
 
-         }
-         return indxnr;
-     }*/
+    public int emptytileIndex () {
+        int index = 0;
+        for (int i = 0; i < buttonList.size(); i++) {
+            if (buttonList.get(i).getText().trim().isBlank()) {
+                index = i;
+            }
+
+        }
+        return index;
+    }
+
     @Override
     public void actionPerformed(ActionEvent e) {
-        //int indxnr=0;
-
-        if (e.getSource() == nyttspel) {
-            Collections.shuffle(/*Arrays.asList(buttons)*/buttons_list);
-            for (JButton button : buttons_list/*buttons*/) {
+        int currentTileIndex = 0;
+        JButton pushedButton = (JButton) e.getSource();
+        for(int i =0;i<buttonList.size();i++){
+            if(pushedButton.getText().equals(buttonList.get(i).getText()))
+                currentTileIndex = i;
+        }
+        if(e.getSource()==newGameButton){
+            Collections.shuffle(buttonList);
+            for(JButton button:buttonList){
                 gamePanel.add(button);
+
             }
             gamePanel.revalidate();
-        } /*else if (e.getSource() != nyttspel ||
-                e.getSource() != buttons_list.get(emptytile_index())) {
-            for (JButton b : buttons_list
-            ) {
-                if (){
+        }
 
+        if(e.getSource()!=newGameButton&&e.getSource()!=buttonList.get(emptytileIndex())){
+            int choiceindex=0;
+            if(emptytileIndex()==5||emptytileIndex()==6||emptytileIndex()==9||emptytileIndex()==10){
+                if(e.getSource()==buttonList.get(emptytileIndex()-1)
+                        ||e.getSource()==buttonList.get(emptytileIndex()+1)
+                        ||e.getSource()==buttonList.get(emptytileIndex()-4)
+                        ||e.getSource()==buttonList.get(emptytileIndex()+4)){
+                    Collections.swap(buttonList,currentTileIndex,emptytileIndex());
+                    for (JButton button : buttonList) {
+                        gamePanel.add(button);
+                    }
+                    gamePanel.revalidate();
                 }
             }
-        }
-*/
-    }
-    /*else if (e.getSource()!=buttons[16]){
-        Collections.swap(Arrays.asList(buttons),e.hashCode(),15);
-        for (JButton button : buttons) {
-            gamePanel.add(button);
-        }
-        gamePanel.revalidate();
-    }*/
+            else if(emptytileIndex()==0){
+                if(e.getSource()==buttonList.get(1)||e.getSource()==buttonList.get(4)) {
+                    Collections.swap(buttonList, currentTileIndex, emptytileIndex());
+                    for (JButton button : buttonList) {
+                        gamePanel.add(button);
+                    }
+                    gamePanel.revalidate();
+                }
 
-    public int emptytile_index () {
-        int indxnr = 0;
-        for (int i = 0; i < buttons_list.size(); i++) {
-            buttons_list.get(i).getText();
-            if (buttons_list.get(i).getText().trim().equalsIgnoreCase("")) {
-                indxnr = i;
+            }
+            else if(emptytileIndex()==1||emptytileIndex()==2){
+                if(e.getSource()==buttonList.get(emptytileIndex()-1)||e.getSource()==buttonList.get(emptytileIndex()+1)
+                        ||e.getSource()==buttonList.get(emptytileIndex()+4)){
+                    Collections.swap(buttonList, currentTileIndex, emptytileIndex());
+                    for (JButton button : buttonList) {
+                        gamePanel.add(button);
+                    }
+                    gamePanel.revalidate();
+                }
+
+            }
+
+            else if(emptytileIndex()==3){
+                if(e.getSource()==buttonList.get(2)||e.getSource()==buttonList.get(7)){
+                    Collections.swap(buttonList, currentTileIndex, emptytileIndex());
+                    for (JButton button : buttonList) {
+                        gamePanel.add(button);
+                    }
+                    gamePanel.revalidate();
+                }
+
+            }
+
+            else if(emptytileIndex()==4||emptytileIndex()==8){
+                if(e.getSource()==buttonList.get(emptytileIndex()-4)||e.getSource()==buttonList.get(emptytileIndex()+4)
+                        ||e.getSource()==buttonList.get(emptytileIndex()+1)){
+                    Collections.swap(buttonList, currentTileIndex, emptytileIndex());
+                    for (JButton button : buttonList) {
+                        gamePanel.add(button);
+                    }
+                    gamePanel.revalidate();
+                }
+
+            }
+
+            else if(emptytileIndex()==7||emptytileIndex()==11){
+                if(e.getSource()==buttonList.get(emptytileIndex()-4)||e.getSource()==buttonList.get(emptytileIndex()+4)
+                        ||e.getSource()==buttonList.get(emptytileIndex()-1)){
+                    Collections.swap(buttonList, currentTileIndex, emptytileIndex());
+                    for (JButton button : buttonList) {
+                        gamePanel.add(button);
+                    }
+                    gamePanel.revalidate();
+                }
+
+            }
+
+            else if(emptytileIndex()==12){
+                if(e.getSource()==buttonList.get(emptytileIndex()-4)||e.getSource()==buttonList.get(emptytileIndex()+1)){
+                    Collections.swap(buttonList, currentTileIndex, emptytileIndex());
+                    for (JButton button : buttonList) {
+                        gamePanel.add(button);
+                    }
+                    gamePanel.revalidate();
+                }
+
+            }
+
+            else if(emptytileIndex()==13||emptytileIndex()==14){
+                if(e.getSource()==buttonList.get(emptytileIndex()-4)||e.getSource()==buttonList.get(emptytileIndex()+1)
+                        ||e.getSource()==buttonList.get(emptytileIndex()-1)){
+                    Collections.swap(buttonList, currentTileIndex, emptytileIndex());
+                    for (JButton button : buttonList) {
+                        gamePanel.add(button);
+                    }
+                    gamePanel.revalidate();
+                }
+
+            }
+
+            else if(emptytileIndex()==15){
+                if(e.getSource()==buttonList.get(emptytileIndex()-4)||e.getSource()==buttonList.get(emptytileIndex()-1)){
+                    Collections.swap(buttonList, currentTileIndex, emptytileIndex());
+                    for (JButton button : buttonList) {
+                        gamePanel.add(button);
+                    }
+                    gamePanel.revalidate();
+                }
+
             }
 
         }
-        return indxnr;
     }
+
+
 }
