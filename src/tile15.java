@@ -31,14 +31,17 @@ public class tile15 extends JFrame implements ActionListener {
             buttonList.add(new JButton(String.valueOf(i+1)));
         }
         buttonList.add(new JButton());
+        button_winnerlist.addAll(buttonList);
         Collections.shuffle(buttonList);
 
         newGameButton.addActionListener(this);
+        wingame_b.addActionListener(this);
 
         for(JButton button:buttonList){
             button.addActionListener(this);
             gamePanel.add(button);
         }
+
 
         setDefaultCloseOperation(EXIT_ON_CLOSE);
         setVisible(true);
@@ -182,6 +185,14 @@ public class tile15 extends JFrame implements ActionListener {
 
             }
 
+        }
+        if (e.getSource()==wingame_b){
+            for (JButton b:button_winnerlist) {
+                gamePanel.add(b);
+            }
+            gamePanel.revalidate();
+            JOptionPane.showMessageDialog(null,
+                    "congrats you've won this round!");
         }
     }
 
