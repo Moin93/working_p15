@@ -186,7 +186,7 @@ public class tile15 extends JFrame implements ActionListener {
             }
 
         }
-        if (buttonList==button_winnerlist){
+        if (buttonList.equals(button_winnerlist)){
             JOptionPane.showMessageDialog(null,
                     "congrats you've won this round!");
         }
